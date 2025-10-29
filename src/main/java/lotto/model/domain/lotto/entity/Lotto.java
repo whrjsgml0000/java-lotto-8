@@ -1,5 +1,6 @@
 package lotto.model.domain.lotto.entity;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Lotto {
@@ -19,4 +20,7 @@ public class Lotto {
         }
     }
 
+    public List<Integer> getNumbers() {
+        return Collections.unmodifiableList(numbers);
+    }
 }

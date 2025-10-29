@@ -1,5 +1,6 @@
 package lotto.model.domain.lotto.entity;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -77,5 +78,23 @@ class LottoTest {
         assertThatThrownBy(() -> new Lotto(List.of(1, 2, 3, 4, 5, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("중복");
+    }
+
+    @Test
+    @DisplayName("불변성이 보장된 객체 확인")
+    void 불변성_보장_객체_확인() {
+        // given
+        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
+        List<Integer> numbers = lotto.getNumbers();
+
+        // when & then
+        assertThatThrownBy(() -> numbers.add(1));
+        assertThatThrownBy(() -> numbers.set(1, 5));
+        assertThatThrownBy(numbers::removeFirst);
+        assertThatThrownBy(numbers::clear);
+        assertDoesNotThrow(numbers::getFirst);
+        assertThat(numbers)
+                .hasSize(6)
+                .contains(1, 2, 3, 4, 5, 6);
     }
 }
