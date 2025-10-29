@@ -1,4 +1,4 @@
-package lotto.model.factory;
+package lotto.model.domain.lotto.factory;
 
 import lotto.model.domain.lotto.entity.Lotto;
 

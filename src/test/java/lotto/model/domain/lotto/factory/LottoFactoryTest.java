@@ -1,12 +1,12 @@
-package lotto.model.factory;
+package lotto.model.domain.lotto.factory;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Set;
 import lotto.model.domain.lotto.entity.Lotto;
-import lotto.model.factory.impl.LottoFactoryImpl;
+import lotto.model.domain.lotto.factory.LottoFactory;
+import lotto.model.domain.lotto.factory.impl.LottoFactoryImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,9 +1,9 @@
-package lotto.model.factory.impl;
+package lotto.model.domain.lotto.factory.impl;
 
 import camp.nextstep.edu.missionutils.Randoms;
 import java.util.List;
 import lotto.model.domain.lotto.entity.Lotto;
-import lotto.model.factory.LottoFactory;
+import lotto.model.domain.lotto.factory.LottoFactory;
 
 public class LottoFactoryImpl implements LottoFactory {
 
