@@ -7,9 +7,23 @@ import lotto.model.factory.LottoFactory;
 
 public class LottoFactoryImpl implements LottoFactory {
 
+    private final int lottoStartNumber;
+    private final int lottoEndNumber;
+    private final int lottoNumberCount;
+
+    public static LottoFactoryImpl defaultSetting() {
+        return new LottoFactoryImpl(1, 45, 6);
+    }
+
+    public LottoFactoryImpl(int lottoStartNumber, int lottoEndNumber, int lottoNumberCount) {
+        this.lottoStartNumber = lottoStartNumber;
+        this.lottoEndNumber = lottoEndNumber;
+        this.lottoNumberCount = lottoNumberCount;
+    }
+
     @Override
     public Lotto create() {
-        List<Integer> list = Randoms.pickUniqueNumbersInRange(1, 45, 6);
+        List<Integer> list = Randoms.pickUniqueNumbersInRange(lottoStartNumber, lottoEndNumber, lottoNumberCount);
         return new Lotto(list);
     }
 }

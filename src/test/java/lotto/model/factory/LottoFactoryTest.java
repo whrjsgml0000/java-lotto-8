@@ -18,7 +18,7 @@ class LottoFactoryTest {
     @DisplayName("유효한 번호를 가진 로또 생성 성공")
     void create() {
         // given
-        lottoFactory = new LottoFactoryImpl();
+        lottoFactory = LottoFactoryImpl.defaultSetting();
 
         // when
         Lotto lotto = lottoFactory.create();
