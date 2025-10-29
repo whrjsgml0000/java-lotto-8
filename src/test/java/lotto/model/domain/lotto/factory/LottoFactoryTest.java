@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import java.util.Set;
 import lotto.model.domain.lotto.entity.Lotto;
-import lotto.model.domain.lotto.factory.LottoFactory;
-import lotto.model.domain.lotto.factory.impl.LottoFactoryImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +16,7 @@ class LottoFactoryTest {
     @DisplayName("유효한 번호를 가진 로또 생성 성공")
     void create() {
         // given
-        lottoFactory = LottoFactoryImpl.defaultSetting();
+        lottoFactory = LottoFactory.defaultSetting();
 
         // when
         Lotto lotto = lottoFactory.create();
