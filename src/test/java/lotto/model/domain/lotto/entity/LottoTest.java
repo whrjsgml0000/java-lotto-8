@@ -33,7 +33,8 @@ class LottoTest {
         void 로또_번호의_개수가_6개가_넘어가면_예외가_발생한다(List<Integer> sizeGt6List) {
             // when & then
             assertThatThrownBy(() -> new Lotto(sizeGt6List))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .withFailMessage("프로그램 오류")
+                    .isInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("6개");
         }
 
@@ -51,7 +52,8 @@ class LottoTest {
         void 로또_번호_개수_6개_미만_예외(List<Integer> sizeLt6List) {
             // when & then
             assertThatThrownBy(() -> new Lotto(sizeLt6List))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .withFailMessage("프로그램 오류")
+                    .isInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("6개");
         }
 
@@ -70,14 +72,14 @@ class LottoTest {
             // when & then
             assertDoesNotThrow(() -> new Lotto(sizeEq6List));
         }
-
     }
 
     @Test
     @DisplayName("로또 번호에 중복된 숫자가 있으면 예외가 발생한다.")
     void 로또_번호에_중복된_숫자가_있으면_예외가_발생한다() {
         assertThatThrownBy(() -> new Lotto(List.of(1, 2, 3, 4, 5, 5)))
-                .isInstanceOf(IllegalArgumentException.class)
+                .withFailMessage("프로그램 오류")
+                .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("중복");
     }
 

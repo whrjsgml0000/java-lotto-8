@@ -1,7 +1,12 @@
 package lotto.model.domain.lotto.entity;
 
+import static lotto.exception.Error.INVALID_LOTTO_NUMBERS_SIZE;
+import static lotto.exception.Error.NOT_UNIQUE_LOTTO_NUMBERS;
+import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTTO_NUMBER_COUNT;
+
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class Lotto {
     private final List<Integer> numbers;
@@ -12,11 +17,19 @@ public class Lotto {
     }
 
     private void validate(List<Integer> numbers) {
-        if (!numbers.stream().distinct().toList().equals(numbers)) {
-            throw new IllegalArgumentException("[ERROR] 로또 번호는 중복될 수 없습니다.");
+        validateLottoNumbersSize(numbers);
+        validateLottoNumbersUnique(numbers);
+    }
+
+    private static void validateLottoNumbersSize(List<Integer> numbers) {
+        if (numbers.size() != DEFAULT_LOTTO_NUMBER_COUNT.value()) {
+            throw new IllegalStateException(INVALID_LOTTO_NUMBERS_SIZE.message());
         }
-        if (numbers.size() != 6) {
-            throw new IllegalArgumentException("[ERROR] 로또 번호는 6개여야 합니다.");
+    }
+
+    private static void validateLottoNumbersUnique(List<Integer> numbers) {
+        if (Set.copyOf(numbers).size() != DEFAULT_LOTTO_NUMBER_COUNT.value()) {
+            throw new IllegalStateException(NOT_UNIQUE_LOTTO_NUMBERS.message());
         }
     }
 
