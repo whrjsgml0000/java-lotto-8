@@ -23,6 +23,7 @@ public class WinningNumber {
         validateRegularNumbersRange(regularNumbers);
         validateRegularNumbersUnique(regularNumbers);
         validateBonusNumberRange(bonusNumber);
+        validateBonusNumberUnique(regularNumbers, bonusNumber);
     }
 
     private static void validateRegularNumbersSize(List<Integer> regularNumbers) {
@@ -55,5 +56,11 @@ public class WinningNumber {
 
     private static boolean validateNumberRange(int number) {
         return number >= DEFAULT_LOTTO_START_NUMBER.value() && number <= DEFAULT_LOTTO_END_NUMBER.value();
+    }
+
+    private static void validateBonusNumberUnique(List<Integer> regularNumbers, int bonusNumber) {
+        if (regularNumbers.contains(bonusNumber)) {
+            throw new IllegalArgumentException("[ERROR] 보너스 번호가 당첨 번호와 중복될 수 없습니다.");
+        }
     }
 }

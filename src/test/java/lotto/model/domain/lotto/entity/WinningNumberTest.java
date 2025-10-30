@@ -46,7 +46,7 @@ class WinningNumberTest {
     void test2(List<Integer> regularNumbers, int bonusNumber, String containingMessage) {
         // when & then
         assertThatThrownBy(() -> new WinningNumber(regularNumbers, bonusNumber))
-                .withFailMessage(containingMessage)
+                .as(containingMessage)
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]")
                 .hasMessageContaining(containingMessage);
