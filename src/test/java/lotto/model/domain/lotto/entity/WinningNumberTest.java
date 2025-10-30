@@ -31,10 +31,12 @@ class WinningNumberTest {
         return Stream.of(
                 Arguments.of(List.of(1, 2, 3, 4, 5, 6, 7), 8, "6개"),
                 Arguments.of(List.of(1, 2, 3, 4, 5), 8, "6개"),
-                Arguments.of(List.of(1, 2, 3, 4, 5, 6), 6, "보너스 숫자"),
-                Arguments.of(List.of(45, 44, 43, 42, 41, 41), 39, "중복된 숫자"),
-                Arguments.of(List.of(0, 2, 3, 4, 5, 6), 8, "1 미만"),
-                Arguments.of(List.of(1, 2, 3, 4, 5, 46), 8, "45 초과")
+                Arguments.of(List.of(1, 2, 3, 4, 5, 6), 6, "보너스 번호"),
+                Arguments.of(List.of(45, 44, 43, 42, 41, 41), 39, "중복된 번호"),
+                Arguments.of(List.of(0, 2, 3, 4, 5, 6), 8, "1"),
+                Arguments.of(List.of(1, 2, 3, 4, 5, 46), 8, "45"),
+                Arguments.of(List.of(1, 2, 3, 4, 5, 6), 0, "1"),
+                Arguments.of(List.of(1, 2, 3, 4, 5, 6), 46, "45")
         );
     }
 
@@ -44,7 +46,7 @@ class WinningNumberTest {
     void test2(List<Integer> regularNumbers, int bonusNumber, String containingMessage) {
         // when & then
         assertThatThrownBy(() -> new WinningNumber(regularNumbers, bonusNumber))
-                .as(containingMessage)
+                .withFailMessage(containingMessage)
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]")
                 .hasMessageContaining(containingMessage);
