@@ -4,11 +4,11 @@ import java.math.BigInteger;
 import java.util.Map;
 
 public enum Winning {
-    FIRST(new BigInteger("2000000000")),
-    SECOND(new BigInteger("30000000")),
-    THIRD(new BigInteger("1500000")),
-    FOURTH(new BigInteger("50000")),
-    FIFTH(new BigInteger("5000")),
+    FIRST(BigInteger.valueOf(2_000_000_000L)),
+    SECOND(BigInteger.valueOf(30_000_000L)),
+    THIRD(BigInteger.valueOf(1_500_000L)),
+    FOURTH(BigInteger.valueOf(50_000L)),
+    FIFTH(BigInteger.valueOf(5_000L)),
     ETC(BigInteger.ZERO)
     ;
     private final BigInteger jackpot;
