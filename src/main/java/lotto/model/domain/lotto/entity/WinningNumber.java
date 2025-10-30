@@ -9,8 +9,10 @@ import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTT
 import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTTO_NUMBER_COUNT;
 import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTTO_START_NUMBER;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import lotto.model.domain.lotto.constant.Winning;
 
 public class WinningNumber {
 
@@ -29,6 +31,25 @@ public class WinningNumber {
         validateRegularNumbersUnique(regularNumbers);
         validateBonusNumberRange(bonusNumber);
         validateBonusNumberUnique(regularNumbers, bonusNumber);
+    }
+
+    public Winning match(List<Integer> lottoNumbers) {
+        Set<Integer> jackpotNumbers = new HashSet<>(regularNumbers);
+        jackpotNumbers.retainAll(new HashSet<>(lottoNumbers));
+        int matchCount = jackpotNumbers.size();
+
+        Winning result = Winning.from(matchCount);
+        result = matchBonusNumber(result, lottoNumbers);
+
+        return result;
+    }
+
+    private Winning matchBonusNumber(Winning result, List<Integer> lottoNumbers) {
+        if (result == Winning.THIRD && lottoNumbers.contains(bonusNumber)) {
+            result = Winning.SECOND;
+        }
+
+        return result;
     }
 
     private static void validateRegularNumbersSize(List<Integer> regularNumbers) {
