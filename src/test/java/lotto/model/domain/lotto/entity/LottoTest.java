@@ -1,16 +1,17 @@
 package lotto.model.domain.lotto.entity;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class LottoTest {
@@ -91,13 +92,36 @@ class LottoTest {
         List<Integer> numbers = lotto.getNumbers();
 
         // when & then
-        assertThatThrownBy(() -> numbers.add(1));
-        assertThatThrownBy(() -> numbers.set(1, 5));
-        assertThatThrownBy(numbers::removeFirst);
-        assertThatThrownBy(numbers::clear);
-        assertDoesNotThrow(numbers::getFirst);
-        assertThat(numbers)
+        SoftAssertions soft = new SoftAssertions();
+        soft.assertThatThrownBy(() -> numbers.add(1));
+        soft.assertThatThrownBy(() -> numbers.set(1, 5));
+        soft.assertThatThrownBy(numbers::removeFirst);
+        soft.assertThatThrownBy(numbers::clear);
+        soft.assertThatCode(numbers::getFirst)
+                .withFailMessage("로또 번호를 가져올 순 있어야됨.")
+                .doesNotThrowAnyException();
+        soft.assertThat(numbers)
                 .hasSize(6)
                 .contains(1, 2, 3, 4, 5, 6);
+
+        soft.assertAll();
+    }
+
+    static Stream<Arguments> overRangeLottoNumberListProvider() {
+        return Stream.of(
+                Arguments.of(List.of(0, 1, 2, 3, 4, 5), "1"),
+                Arguments.of(List.of(1, 2, 3, 4, 5, 46), "45")
+        );
+    }
+
+    @ParameterizedTest(name = "numbers:{0}")
+    @DisplayName("로또 발행 숫자가 범위 초과한 경우")
+    @MethodSource("overRangeLottoNumberListProvider")
+    void test1(List<Integer> regularNumbers, String containingMessage) {
+        // when & then
+        assertThatThrownBy(() -> new Lotto(regularNumbers))
+                .withFailMessage("로또 번호 범위 에러")
+                .isExactlyInstanceOf(IllegalStateException.class)
+                .hasMessageContaining(containingMessage);
     }
 }
