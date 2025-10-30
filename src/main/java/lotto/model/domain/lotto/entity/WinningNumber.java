@@ -1,5 +1,10 @@
 package lotto.model.domain.lotto.entity;
 
+import static lotto.exception.Error.INVALID_BONUS_NUMBER_RANGE;
+import static lotto.exception.Error.INVALID_REGULAR_NUMBERS_RANGE;
+import static lotto.exception.Error.INVALID_REGULAR_NUMBERS_SIZE;
+import static lotto.exception.Error.NOT_UNIQUE_BONUS_NUMBER;
+import static lotto.exception.Error.NOT_UNIQUE_REGULAR_NUMBERS;
 import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTTO_END_NUMBER;
 import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTTO_NUMBER_COUNT;
 import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTTO_START_NUMBER;
@@ -28,29 +33,25 @@ public class WinningNumber {
 
     private static void validateRegularNumbersSize(List<Integer> regularNumbers) {
         if (regularNumbers.size() != DEFAULT_LOTTO_NUMBER_COUNT.value()) {
-            throw new IllegalArgumentException("[ERROR] 당첨 번호는 " + DEFAULT_LOTTO_NUMBER_COUNT.value() + "개만 입력 가능합니다.");
-        }
-    }
-
-    private static void validateRegularNumbersUnique(List<Integer> regularNumbers) {
-        if (Set.copyOf(regularNumbers).size() != DEFAULT_LOTTO_NUMBER_COUNT.value()) {
-            throw new IllegalArgumentException("[ERROR] 당첨 번호는 중복된 번호를 가져선 안됩니다.");
+            throw new IllegalArgumentException(INVALID_REGULAR_NUMBERS_SIZE.message());
         }
     }
 
     private static void validateRegularNumbersRange(List<Integer> regularNumbers) {
         if (!regularNumbers.stream().allMatch(WinningNumber::validateNumberRange)) {
-            throw new IllegalArgumentException(
-                    "[ERROR] 당첨 번호는 " + DEFAULT_LOTTO_START_NUMBER.value() + "와 " + DEFAULT_LOTTO_END_NUMBER.value()
-                            + "사이의 번호여야 합니다.");
+            throw new IllegalArgumentException(INVALID_REGULAR_NUMBERS_RANGE.message());
+        }
+    }
+
+    private static void validateRegularNumbersUnique(List<Integer> regularNumbers) {
+        if (Set.copyOf(regularNumbers).size() != DEFAULT_LOTTO_NUMBER_COUNT.value()) {
+            throw new IllegalArgumentException(NOT_UNIQUE_REGULAR_NUMBERS.message());
         }
     }
 
     private static void validateBonusNumberRange(int bonusNumber) {
         if (!validateNumberRange(bonusNumber)) {
-            throw new IllegalArgumentException(
-                    "[ERROR] 보너스 번호는 " + DEFAULT_LOTTO_START_NUMBER.value() + "와 " + DEFAULT_LOTTO_END_NUMBER.value()
-                            + "사이의 번호여야 합니다.");
+            throw new IllegalArgumentException(INVALID_BONUS_NUMBER_RANGE.message());
         }
     }
 
@@ -60,7 +61,7 @@ public class WinningNumber {
 
     private static void validateBonusNumberUnique(List<Integer> regularNumbers, int bonusNumber) {
         if (regularNumbers.contains(bonusNumber)) {
-            throw new IllegalArgumentException("[ERROR] 보너스 번호가 당첨 번호와 중복될 수 없습니다.");
+            throw new IllegalArgumentException(NOT_UNIQUE_BONUS_NUMBER.message());
         }
     }
 }
