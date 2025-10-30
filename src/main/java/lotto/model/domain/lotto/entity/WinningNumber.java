@@ -22,6 +22,7 @@ public class WinningNumber {
         validateRegularNumbersSize(regularNumbers);
         validateRegularNumbersRange(regularNumbers);
         validateRegularNumbersUnique(regularNumbers);
+        validateBonusNumberRange(bonusNumber);
     }
 
     private static void validateRegularNumbersSize(List<Integer> regularNumbers) {
@@ -40,6 +41,14 @@ public class WinningNumber {
         if (!regularNumbers.stream().allMatch(WinningNumber::validateNumberRange)) {
             throw new IllegalArgumentException(
                     "[ERROR] 당첨 번호는 " + DEFAULT_LOTTO_START_NUMBER.value() + "와 " + DEFAULT_LOTTO_END_NUMBER.value()
+                            + "사이의 번호여야 합니다.");
+        }
+    }
+
+    private static void validateBonusNumberRange(int bonusNumber) {
+        if (!validateNumberRange(bonusNumber)) {
+            throw new IllegalArgumentException(
+                    "[ERROR] 보너스 번호는 " + DEFAULT_LOTTO_START_NUMBER.value() + "와 " + DEFAULT_LOTTO_END_NUMBER.value()
                             + "사이의 번호여야 합니다.");
         }
     }
