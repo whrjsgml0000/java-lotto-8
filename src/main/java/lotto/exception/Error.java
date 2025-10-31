@@ -2,6 +2,7 @@ package lotto.exception;
 
 import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTTO_END_NUMBER;
 import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTTO_NUMBER_COUNT;
+import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTTO_PRICE;
 import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTTO_START_NUMBER;
 
 public enum Error {
@@ -15,7 +16,9 @@ public enum Error {
     INVALID_LOTTO_NUMBERS_SIZE("로또 번호는 6개여야 합니다."),
     NOT_UNIQUE_LOTTO_NUMBERS("로또 번호는 중복될 수 없습니다."),
     INVALID_LOTTO_NUMBERS_RANGE(
-            "로또 번호는 " + DEFAULT_LOTTO_START_NUMBER.value() + "와 " + DEFAULT_LOTTO_END_NUMBER.value() + "사이의 번호여야 합니다.");
+            "로또 번호는 " + DEFAULT_LOTTO_START_NUMBER.value() + "와 " + DEFAULT_LOTTO_END_NUMBER.value() + "사이의 번호여야 합니다."),
+    CANT_DIVIDE_MONEY_CLEARLY("구입 금액이 " + DEFAULT_LOTTO_PRICE.value() + "으로 나눠져야 합니다.")
+    ;
     private static final String ERROR_PREFIX = "[ERROR] ";
     private final String message;
 
