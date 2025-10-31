@@ -57,7 +57,6 @@ class LottoCalculatorTest {
         void test2(long totalPurchaseMoney, String containingMessage) {
             // when & then
             assertThatThrownBy(() -> lottoCalculator.calculatePurchasableLottoCount(totalPurchaseMoney))
-                    .withFailMessage("1,000 으로 나눠 떨어지지 않는 수는 에러가 나야됨.")
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageStartingWith("[ERROR]")
                     .hasMessageContaining(containingMessage);

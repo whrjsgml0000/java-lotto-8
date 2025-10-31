@@ -17,7 +17,9 @@ public enum Error {
     NOT_UNIQUE_LOTTO_NUMBERS("로또 번호는 중복될 수 없습니다."),
     INVALID_LOTTO_NUMBERS_RANGE(
             "로또 번호는 " + DEFAULT_LOTTO_START_NUMBER.value() + "와 " + DEFAULT_LOTTO_END_NUMBER.value() + "사이의 번호여야 합니다."),
-    CANT_DIVIDE_MONEY_CLEARLY("구입 금액이 " + DEFAULT_LOTTO_PRICE.value() + "으로 나눠져야 합니다.")
+    CANT_DIVIDE_MONEY_CLEARLY("구입 금액이 " + DEFAULT_LOTTO_PRICE.value() + "으로 나눠져야 합니다."),
+    PURCHASE_MONEY_CANT_BE_NEGATIVE("구입 금액은 음수일 수 없습니다."),
+    PURCHASE_MONEY_SHOULD_BE_LARGER_THAN_LOTTO_PRICE("구입 금액은 로또를 최소 한 개 이상 구입할 수 있는 금액이어야 합니다."),
     ;
     private static final String ERROR_PREFIX = "[ERROR] ";
     private final String message;
