@@ -3,7 +3,12 @@ package lotto.model.domain.lotto.util;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.math.BigDecimal;
+import java.util.Map;
 import java.util.stream.Stream;
+import lotto.model.domain.lotto.constant.Winning;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -61,6 +66,34 @@ class LottoCalculatorTest {
                     .hasMessageStartingWith("[ERROR]")
                     .hasMessageContaining(containingMessage);
         }
+    }
 
+    static Stream<Arguments> winningCountAndTotalInputMoneyProvider() {
+        return Stream.of(
+                Arguments.of(Map.of(Winning.FIRST, 1), 1_000L, 200_000_000.0D),
+                Arguments.of(Map.of(Winning.SECOND, 1), 1_000L, 3_000_000.0D),
+                Arguments.of(Map.of(Winning.THIRD, 1), 1_000L, 150_000.0D),
+                Arguments.of(Map.of(Winning.FOURTH, 1), 1_000L, 5_000.0D),
+                Arguments.of(Map.of(Winning.FIFTH, 1), 1_000L, 500.0D),
+                Arguments.of(Map.of(Winning.FIFTH, 1), 3_000L, 166.7D),
+                Arguments.of(Map.of(Winning.FIFTH, 1), 10_000_000L, 0.1D)
+        );
+    }
+
+    @ParameterizedTest(name = "{0}, input:{1}")
+    @DisplayName("수익률 계산")
+    @MethodSource("winningCountAndTotalInputMoneyProvider")
+    void test1(Map<Winning, Integer> winningCount, long totalInputMoney, double expectedProfitRate) {
+        // when
+        BigDecimal profitRate = lottoCalculator.calculateProfitRate(winningCount, totalInputMoney);
+
+        // then
+        SoftAssertions soft = new SoftAssertions();
+
+        soft.assertThat(profitRate.doubleValue())
+                .as("수익률은 반올림되기 때문에 오차 범위는 0.05")
+                .isEqualTo(expectedProfitRate, Offset.offset(0.05D));
+
+        soft.assertAll();
     }
 }
