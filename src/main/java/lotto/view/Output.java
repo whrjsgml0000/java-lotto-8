@@ -7,6 +7,6 @@ public class Output {
     }
 
     public void lineSeparate(int count) {
-        System.out.println(System.lineSeparator().repeat(count));
+        System.out.print(System.lineSeparator().repeat(count));
     }
 }
