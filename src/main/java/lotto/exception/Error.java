@@ -24,6 +24,8 @@ public enum Error {
     MAPPABLE_CLASS_SHOULD_HAVE_DEFAULT_CONSTRUCTOR("Mappable 클래스는 기본 생성자가 필요합니다."),
     MAPPABLE_CLASS_SHOULD_HAVE_PUBLIC_DEFAULT_CONSTRUCTOR("Mappable 클래스는 기본 생성자가 public 해야 합니다."),
     MAPPING_PROCESS_ERROR("Mapping 과정에서 문제가 발생했습니다."),
+    INPUT_SHOULD_EXIST("입력값이 필요합니다."),
+    INPUT_SHOULD_CONSIST_OF_NUMBER_AND_SEPARATOR("입력값은 숫자와 ,로만 구분되야 합니다.")
     ;
     private static final String ERROR_PREFIX = "[ERROR] ";
     private final String message;

@@ -1,8 +1,10 @@
 package lotto.model.service.impl;
 
 import lotto.model.domain.lotto.dto.req.GenerateLottoDTO;
+import lotto.model.domain.lotto.dto.req.GenerateWinningNumberDTO;
 import lotto.model.domain.lotto.dto.res.LottoDTO;
 import lotto.model.domain.lotto.dto.res.LottoDTOs;
+import lotto.model.domain.lotto.entity.WinningNumber;
 import lotto.model.domain.lotto.factory.LottoFactory;
 import lotto.model.domain.lotto.util.LottoCalculator;
 import lotto.model.service.LottoService;
@@ -25,5 +27,10 @@ public class LottoServiceImpl implements LottoService {
             lottoDTOs.add(LottoDTO.toDTO(lottoFactory.create()));
         }
         return lottoDTOs;
+    }
+
+    @Override
+    public void checkValidWinningNumber(GenerateWinningNumberDTO generateWinningNumberDTO) {
+        WinningNumber.validateRegularNumbers(generateWinningNumberDTO.getNumbers());
     }
 }

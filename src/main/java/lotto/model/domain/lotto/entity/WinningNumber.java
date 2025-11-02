@@ -26,11 +26,19 @@ public class WinningNumber {
     }
 
     private void validate(List<Integer> regularNumbers, int bonusNumber) {
+        validateRegularNumbers(regularNumbers);
+        validateBonusNumber(bonusNumber);
+        validateBonusNumberUnique(regularNumbers, bonusNumber);
+    }
+
+    public static void validateRegularNumbers(List<Integer> regularNumbers) {
         validateRegularNumbersSize(regularNumbers);
         validateRegularNumbersRange(regularNumbers);
         validateRegularNumbersUnique(regularNumbers);
+    }
+
+    public static void validateBonusNumber(int bonusNumber) {
         validateBonusNumberRange(bonusNumber);
-        validateBonusNumberUnique(regularNumbers, bonusNumber);
     }
 
     public Winning match(List<Integer> lottoNumbers) {

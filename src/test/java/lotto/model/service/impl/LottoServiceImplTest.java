@@ -1,10 +1,12 @@
 package lotto.model.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
 import lotto.model.domain.lotto.dto.req.GenerateLottoDTO;
+import lotto.model.domain.lotto.dto.req.GenerateWinningNumberDTO;
 import lotto.model.domain.lotto.dto.res.LottoDTOs;
 import lotto.model.domain.lotto.factory.LottoFactory;
 import lotto.model.domain.lotto.util.LottoCalculator;
@@ -17,11 +19,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class LottoServiceImplTest {
 
-    LottoService lottoService = new LottoServiceImpl(LottoFactory.defaultSetting(), LottoCalculator.defaultCalculator());
+    LottoService lottoService = new LottoServiceImpl(LottoFactory.defaultSetting(),
+            LottoCalculator.defaultCalculator());
 
     @Nested
     @DisplayName("로또 발행 기능")
-    class 로또발행기능{
+    class 로또발행기능 {
 
         static Stream<Arguments> lottoPurchaseMoneyProvider() {
             return Stream.of(
@@ -65,8 +68,59 @@ class LottoServiceImplTest {
             generateLottoDTO.mapping(String.valueOf(inputMoney));
 
             // when & then
-            assertThatThrownBy(()->lottoService.generateLotto(generateLottoDTO))
+            assertThatThrownBy(() -> lottoService.generateLotto(generateLottoDTO))
                     .as("입력값이 잘못됐으므로 에러가 나야됨.")
+                    .hasMessageStartingWith("[ERROR]")
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("유효한 당첨 번호 생성")
+    class 유효한당첨번호생성 {
+
+        static Stream<String> successWinningNumberMappingProvider() {
+            return Stream.of(
+                    "1,2,3,4,5,6",
+                    "2,3,4,5,6,7",
+                    "45,44,43,42,41,40"
+            );
+        }
+
+        @ParameterizedTest(name = "{0}")
+        @DisplayName("성공")
+        @MethodSource("successWinningNumberMappingProvider")
+        void success(String mapping) {
+            // given
+            GenerateWinningNumberDTO generateWinningNumberDTO = new GenerateWinningNumberDTO();
+            generateWinningNumberDTO.mapping(mapping);
+
+            // when & then
+            assertThatCode(() -> lottoService.checkValidWinningNumber(generateWinningNumberDTO))
+                    .doesNotThrowAnyException();
+        }
+
+        static Stream<String> failWinningNumberMappingProvider() {
+            return Stream.of(
+                    "1,2,3,4,5",
+                    "1,2,3,4,5,6,7",
+                    "-1,2,3,4,5,6",
+                    "0,1,2,3,4,5",
+                    "46,45,44,43,42,41"
+            );
+        }
+
+        @ParameterizedTest(name = "{0}")
+        @DisplayName("실패")
+        @MethodSource("failWinningNumberMappingProvider")
+        void fail(String mapping) {
+            // given
+            GenerateWinningNumberDTO generateWinningNumberDTO = new GenerateWinningNumberDTO();
+            generateWinningNumberDTO.mapping(mapping);
+
+            // when & then
+            assertThatCode(() -> lottoService.checkValidWinningNumber(generateWinningNumberDTO))
+                    .withFailMessage("입력값이 잘못됐으므로 에러")
                     .hasMessageStartingWith("[ERROR]")
                     .isInstanceOf(IllegalArgumentException.class);
         }
