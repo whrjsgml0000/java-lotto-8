@@ -16,45 +16,17 @@ public class IOHandler {
         this.objectMapper = objectMapper;
     }
 
-    public String requestInputWithMessage(String message) {
-        output.println(message);
-        return input.readLine();
-    }
-
-    public String requestInputWithMessage(String message, int prefixLineSeparatorCount) {
-        output.lineSeparate(prefixLineSeparatorCount);
-        return requestInputWithMessage(message);
-    }
-
     public <T extends Mappable<T>> T requestMappableDTOWithMessage(Class<T> requiredClassType, String message) {
         output.println(message);
-        String value = input.readLine();
-        return objectMapper.mapping(requiredClassType, value);
-    }
-
-    public <T extends Mappable<T>> T requestMappableDTOWithMessage(Class<T> requiredClassType, String message,
-                                                                   int prefixLineSeparatorCount) {
-        output.lineSeparate(prefixLineSeparatorCount);
-        return this.requestMappableDTOWithMessage(requiredClassType, message);
-    }
-
-    public void printMessage(String message) {
-        output.println(message);
-    }
-
-    public void printMessage(String message, int prefixLineSeparatorCount) {
-        output.lineSeparate(prefixLineSeparatorCount);
-        printMessage(message);
+        String read = input.readLine();
+        output.lineSeparate(1);
+        return objectMapper.mapping(requiredClassType, read);
     }
 
     public void printLottoDTOs(String prefixMessage, LottoDTOs lottoDTOs) {
         output.println(prefixMessage);
         output.println(lottoDTOs.toString());
-    }
-
-    public void printLottoDTOs(String prefixMessage, LottoDTOs lottoDTOs, int prefixLineSeparatorCount) {
-        output.lineSeparate(prefixLineSeparatorCount);
-        printLottoDTOs(prefixMessage, lottoDTOs);
+        output.lineSeparate(1);
     }
 
     public void printError(Exception e) {
@@ -62,7 +34,9 @@ public class IOHandler {
         output.lineSeparate(1);
     }
 
-    public void printMatchResultDTO(MatchResultDTO match) {
-
+    public void printMatchResultDTO(String prefixMessage, MatchResultDTO match) {
+        output.println(prefixMessage);
+        output.println(match.toString());
+        output.lineSeparate(1);
     }
 }

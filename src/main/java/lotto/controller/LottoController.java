@@ -26,7 +26,7 @@ public class LottoController {
         GenerateWinningNumberDTO generateWinningNumberDTO = getGenerateWinningNumber();
         WinningNumber winningNumber = addBonusNumber(generateWinningNumberDTO);
         MatchResultDTO match = lottoService.match(lottoDTOs, winningNumber);
-        ioHandler.printMatchResultDTO(match);
+        ioHandler.printMatchResultDTO(ResponseFormat.WINNING_STATISTICS.formatted(), match);
     }
 
     private LottoDTOs generateLotto() {
@@ -35,8 +35,7 @@ public class LottoController {
                 GenerateLottoDTO generateLottoDTO = ioHandler.requestMappableDTOWithMessage(GenerateLottoDTO.class,
                         Request.PURCHASE_MONEY.message());
                 LottoDTOs lottoDTOs = lottoService.generateLotto(generateLottoDTO);
-                ioHandler.printLottoDTOs(ResponseFormat.PURCHASE_COUNT.formatted(lottoDTOs.getLottoCount()), lottoDTOs,
-                        1);
+                ioHandler.printLottoDTOs(ResponseFormat.PURCHASE_COUNT.formatted(lottoDTOs.getLottoCount()), lottoDTOs);
                 return lottoDTOs;
             } catch (Exception e) {
                 ioHandler.printError(e);
@@ -48,7 +47,7 @@ public class LottoController {
         while (true) {
             try {
                 GenerateWinningNumberDTO generateWinningNumberDTO = ioHandler.requestMappableDTOWithMessage(
-                        GenerateWinningNumberDTO.class, Request.WINNING_NUMBER.message(), 1);
+                        GenerateWinningNumberDTO.class, Request.WINNING_NUMBER.message());
 
                 lottoService.checkValidWinningNumber(generateWinningNumberDTO);
                 return generateWinningNumberDTO;

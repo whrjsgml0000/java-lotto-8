@@ -2,6 +2,7 @@ package lotto.controller.message;
 
 public enum ResponseFormat {
     PURCHASE_COUNT("%d개를 구매했습니다."),
+    WINNING_STATISTICS("당첨 통계" + System.lineSeparator() + "---")
     ;
     private final String format;
 
