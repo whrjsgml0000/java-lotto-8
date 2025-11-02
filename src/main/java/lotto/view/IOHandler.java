@@ -1,5 +1,7 @@
 package lotto.view;
 
+import lotto.model.domain.lotto.dto.res.LottoDTOs;
+
 public class IOHandler {
     private final Input input;
     private final Output output;
@@ -26,5 +28,10 @@ public class IOHandler {
     public void printMessage(String message, int prefixLineSeparatorCount) {
         output.lineSeparate(prefixLineSeparatorCount);
         printMessage(message);
+    }
+
+    public void printLottoDTOs(String prefixMessage, LottoDTOs lottoDTOs) {
+        output.println(prefixMessage);
+        output.println(lottoDTOs.toString());
     }
 }
