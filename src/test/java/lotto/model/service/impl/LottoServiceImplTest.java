@@ -5,9 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
+import lotto.model.domain.lotto.dto.req.AddBonusNumberDTO;
 import lotto.model.domain.lotto.dto.req.GenerateLottoDTO;
 import lotto.model.domain.lotto.dto.req.GenerateWinningNumberDTO;
 import lotto.model.domain.lotto.dto.res.LottoDTOs;
+import lotto.model.domain.lotto.entity.WinningNumber;
 import lotto.model.domain.lotto.factory.LottoFactory;
 import lotto.model.domain.lotto.util.LottoCalculator;
 import lotto.model.service.LottoService;
@@ -130,6 +132,45 @@ class LottoServiceImplTest {
     @DisplayName("보너스 번호 추가")
     class 보너스번호추가 {
 
+        static GenerateWinningNumberDTO generateWinningNumberDTO;
 
+        static {
+            generateWinningNumberDTO = new GenerateWinningNumberDTO();
+            generateWinningNumberDTO.mapping("1,2,3,4,5,6");
+        }
+
+        static Stream<String> successBonusNumberMapperProvider() {
+            return Stream.of(
+                    "10", "11", "12", "13", "45"
+            );
+        }
+
+        @ParameterizedTest(name = "success: {0}")
+        @DisplayName("성공")
+        @MethodSource("successBonusNumberMapperProvider")
+        void success(String mappedValue) {
+            AddBonusNumberDTO addBonusNumberDTO = new AddBonusNumberDTO();
+            addBonusNumberDTO.mapping(mappedValue);
+            assertThatCode(() -> lottoService.addBonusNumber(generateWinningNumberDTO, addBonusNumberDTO))
+                    .doesNotThrowAnyException();
+        }
+
+        static Stream<String> failBonusNumberMapperProvider() {
+            return Stream.of(
+                    "0","46","1","2","3","4","5","6"
+            );
+        }
+
+        @ParameterizedTest(name = "fail: {0}")
+        @DisplayName("실패")
+        @MethodSource("failBonusNumberMapperProvider")
+        void fail(String failMappedValue) {
+            AddBonusNumberDTO addBonusNumberDTO = new AddBonusNumberDTO();
+            addBonusNumberDTO.mapping(failMappedValue);
+            assertThatThrownBy(()->lottoService.addBonusNumber(generateWinningNumberDTO, addBonusNumberDTO))
+                    .as("중복된 보너스 번호, 경계값")
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageStartingWith("[ERROR]");
+        }
     }
 }
