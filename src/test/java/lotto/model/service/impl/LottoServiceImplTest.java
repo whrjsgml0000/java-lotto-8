@@ -1,0 +1,74 @@
+package lotto.model.service.impl;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.util.stream.Stream;
+import lotto.model.domain.lotto.dto.req.GenerateLottoDTO;
+import lotto.model.domain.lotto.dto.res.LottoDTOs;
+import lotto.model.domain.lotto.factory.LottoFactory;
+import lotto.model.domain.lotto.util.LottoCalculator;
+import lotto.model.service.LottoService;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+class LottoServiceImplTest {
+
+    LottoService lottoService = new LottoServiceImpl(LottoFactory.defaultSetting(), LottoCalculator.defaultCalculator());
+
+    @Nested
+    @DisplayName("로또 발행 기능")
+    class 로또발행기능{
+
+        static Stream<Arguments> lottoPurchaseMoneyProvider() {
+            return Stream.of(
+                    Arguments.of(1000, 1),
+                    Arguments.of(2000, 2),
+                    Arguments.of(5000, 5),
+                    Arguments.of(111000, 111)
+            );
+        }
+
+        @ParameterizedTest()
+        @DisplayName("성공")
+        @MethodSource("lottoPurchaseMoneyProvider")
+        void success(long inputMoney, long expectedGeneratedLottoCount) {
+            // given
+            GenerateLottoDTO generateLottoDTO = new GenerateLottoDTO();
+            generateLottoDTO.mapping(String.valueOf(inputMoney));
+
+            // when
+            LottoDTOs lottoDTOs = lottoService.generateLotto(generateLottoDTO);
+            int lottoCount = lottoDTOs.getLottoCount();
+
+            // then
+            assertThat(lottoCount)
+                    .as("1000원 단위로 로또 구매가 진행되야됨.")
+                    .isEqualTo(expectedGeneratedLottoCount);
+        }
+
+        static Stream<Integer> failLottoPurchaseMoneyProvider() {
+            return Stream.of(
+                    1001, 2020, 3300, 111, -1
+            );
+        }
+
+        @ParameterizedTest()
+        @DisplayName("실패")
+        @MethodSource("failLottoPurchaseMoneyProvider")
+        void fail(long inputMoney) {
+            // given
+            GenerateLottoDTO generateLottoDTO = new GenerateLottoDTO();
+            generateLottoDTO.mapping(String.valueOf(inputMoney));
+
+            // when & then
+            assertThatThrownBy(()->lottoService.generateLotto(generateLottoDTO))
+                    .as("입력값이 잘못됐으므로 에러가 나야됨.")
+                    .hasMessageStartingWith("[ERROR]")
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
+}

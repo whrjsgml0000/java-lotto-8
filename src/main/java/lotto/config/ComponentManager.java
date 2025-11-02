@@ -2,7 +2,9 @@ package lotto.config;
 
 import lotto.controller.LottoController;
 import lotto.model.domain.lotto.factory.LottoFactory;
+import lotto.model.domain.lotto.util.LottoCalculator;
 import lotto.model.service.LottoService;
+import lotto.model.service.impl.LottoServiceImpl;
 import lotto.view.IOHandler;
 import lotto.view.Input;
 import lotto.view.Output;
@@ -12,6 +14,7 @@ public class ComponentManager {
 
     private static ComponentManager instance;
     private final LottoFactory lottoFactory;
+    private final LottoCalculator lottoCalculator;
     private final IOHandler ioHandler;
     private final Input input;
     private final Output output;
@@ -25,7 +28,8 @@ public class ComponentManager {
         this.objectMapper = new ObjectMapper();
         this.ioHandler = new IOHandler(input, output, objectMapper);
         this.lottoFactory = LottoFactory.defaultSetting();
-        this.lottoService = LottoService.defaultService();
+        this.lottoCalculator = LottoCalculator.defaultCalculator();
+        this.lottoService = new LottoServiceImpl(lottoFactory, lottoCalculator);
         this.lottoController = new LottoController(ioHandler, lottoService);
     }
 
