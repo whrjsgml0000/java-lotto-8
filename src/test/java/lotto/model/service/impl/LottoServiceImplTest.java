@@ -4,17 +4,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
 import java.util.stream.Stream;
 import lotto.model.domain.lotto.dto.req.AddBonusNumberDTO;
 import lotto.model.domain.lotto.dto.req.GenerateLottoDTO;
 import lotto.model.domain.lotto.dto.req.GenerateWinningNumberDTO;
+import lotto.model.domain.lotto.dto.res.LottoDTO;
 import lotto.model.domain.lotto.dto.res.LottoDTOs;
+import lotto.model.domain.lotto.dto.res.MatchResultDTO;
 import lotto.model.domain.lotto.entity.WinningNumber;
 import lotto.model.domain.lotto.factory.LottoFactory;
 import lotto.model.domain.lotto.util.LottoCalculator;
 import lotto.model.service.LottoService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -171,6 +175,21 @@ class LottoServiceImplTest {
                     .as("중복된 보너스 번호, 경계값")
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageStartingWith("[ERROR]");
+        }
+    }
+
+    @Nested
+    @DisplayName("로또 결과 확인")
+    class 로또매치결과 {
+
+        @Test
+        @DisplayName("수익률 출력 확인")
+        void test1() {
+            LottoDTOs lottoDTOs = new LottoDTOs();
+            lottoDTOs.add(new LottoDTO(List.of(1,2,3,4,5,6)));
+            MatchResultDTO match = lottoService.match(lottoDTOs, new WinningNumber(List.of(1, 2, 3, 4, 5, 6), 7));
+            assertThat(match.toString())
+                    .contains("총 수익률은 20,000,000.0%입니다.");
         }
     }
 }

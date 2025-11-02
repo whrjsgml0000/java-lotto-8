@@ -1,6 +1,7 @@
 package lotto.view;
 
 import lotto.model.domain.lotto.dto.res.LottoDTOs;
+import lotto.model.domain.lotto.dto.res.MatchResultDTO;
 import lotto.view.mapper.Mappable;
 import lotto.view.mapper.ObjectMapper;
 
@@ -59,5 +60,9 @@ public class IOHandler {
     public void printError(Exception e) {
         output.println(e.getMessage());
         output.lineSeparate(1);
+    }
+
+    public void printMatchResultDTO(MatchResultDTO match) {
+
     }
 }

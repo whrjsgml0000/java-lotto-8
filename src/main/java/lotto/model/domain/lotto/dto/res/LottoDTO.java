@@ -22,4 +22,8 @@ public class LottoDTO {
         lottoNumbers.sort(Comparator.naturalOrder());
         return lottoNumbers.toString();
     }
+
+    public List<Integer> getLottoNumbers() {
+        return lottoNumbers;
+    }
 }

@@ -30,4 +30,8 @@ public class LottoDTOs {
                 .map(LottoDTO::toString)
                 .collect(Collectors.joining(System.lineSeparator()));
     }
+
+    public List<LottoDTO> getLottoDTOs() {
+        return lottoDTOs;
+    }
 }

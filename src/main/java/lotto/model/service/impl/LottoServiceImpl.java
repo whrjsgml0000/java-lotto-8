@@ -1,11 +1,19 @@
 package lotto.model.service.impl;
 
+import static lotto.model.domain.lotto.constant.LottoNumberConstant.DEFAULT_LOTTO_PRICE;
+
+import java.math.BigDecimal;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import lotto.model.domain.lotto.constant.Winning;
 import lotto.model.domain.lotto.dto.req.AddBonusNumberDTO;
 import lotto.model.domain.lotto.dto.req.GenerateLottoDTO;
 import lotto.model.domain.lotto.dto.req.GenerateWinningNumberDTO;
 import lotto.model.domain.lotto.dto.res.LottoDTO;
 import lotto.model.domain.lotto.dto.res.LottoDTOs;
+import lotto.model.domain.lotto.dto.res.MatchResultDTO;
 import lotto.model.domain.lotto.entity.WinningNumber;
 import lotto.model.domain.lotto.factory.LottoFactory;
 import lotto.model.domain.lotto.util.LottoCalculator;
@@ -43,5 +51,17 @@ public class LottoServiceImpl implements LottoService {
         int bonusNumber = addBonusNumberDTO.getBonusNumber();
         WinningNumber.validate(regularNumbers, bonusNumber);
         return new WinningNumber(regularNumbers, bonusNumber);
+    }
+
+    @Override
+    public MatchResultDTO match(LottoDTOs lottoDTOs, WinningNumber winningNumber) {
+        Map<Winning, Integer> winningsCount = new EnumMap<>(Winning.class);
+        lottoDTOs.getLottoDTOs().stream()
+                .map(LottoDTO::getLottoNumbers)
+                .map(winningNumber::match)
+                .forEach(winning -> winningsCount.merge(winning, 1, Integer::sum));
+
+        BigDecimal profitRate = lottoCalculator.calculateProfitRate(winningsCount, lottoDTOs.getLottoCount() * DEFAULT_LOTTO_PRICE.value());
+        return new MatchResultDTO(winningsCount, profitRate);
     }
 }
