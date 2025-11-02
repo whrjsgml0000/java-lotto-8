@@ -55,4 +55,9 @@ public class IOHandler {
         output.lineSeparate(prefixLineSeparatorCount);
         printLottoDTOs(prefixMessage, lottoDTOs);
     }
+
+    public void printError(Exception e) {
+        output.println(e.getMessage());
+        output.lineSeparate(1);
+    }
 }

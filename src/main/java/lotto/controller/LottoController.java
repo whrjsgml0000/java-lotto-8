@@ -25,18 +25,31 @@ public class LottoController {
     }
 
     private LottoDTOs generateLotto() {
-        GenerateLottoDTO generateLottoDTO = ioHandler.requestMappableDTOWithMessage(GenerateLottoDTO.class,
-                Request.PURCHASE_MONEY.message());
-        LottoDTOs lottoDTOs = lottoService.generateLotto(generateLottoDTO);
-        ioHandler.printLottoDTOs(ResponseFormat.PURCHASE_COUNT.formatted(lottoDTOs.getLottoCount()), lottoDTOs, 1);
-        return lottoDTOs;
+        while (true) {
+            try {
+                GenerateLottoDTO generateLottoDTO = ioHandler.requestMappableDTOWithMessage(GenerateLottoDTO.class,
+                        Request.PURCHASE_MONEY.message());
+                LottoDTOs lottoDTOs = lottoService.generateLotto(generateLottoDTO);
+                ioHandler.printLottoDTOs(ResponseFormat.PURCHASE_COUNT.formatted(lottoDTOs.getLottoCount()), lottoDTOs,
+                        1);
+                return lottoDTOs;
+            } catch (Exception e) {
+                ioHandler.printError(e);
+            }
+        }
     }
 
     private GenerateWinningNumberDTO getGenerateWinningNumber() {
-        GenerateWinningNumberDTO generateWinningNumberDTO = ioHandler.requestMappableDTOWithMessage(
-                GenerateWinningNumberDTO.class, Request.WINNING_NUMBER.message(), 1);
+        while (true) {
+            try {
+                GenerateWinningNumberDTO generateWinningNumberDTO = ioHandler.requestMappableDTOWithMessage(
+                        GenerateWinningNumberDTO.class, Request.WINNING_NUMBER.message(), 1);
 
-        lottoService.checkValidWinningNumber(generateWinningNumberDTO);
-        return generateWinningNumberDTO;
+                lottoService.checkValidWinningNumber(generateWinningNumberDTO);
+                return generateWinningNumberDTO;
+            } catch (Exception e) {
+                ioHandler.printError(e);
+            }
+        }
     }
 }
