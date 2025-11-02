@@ -1,6 +1,7 @@
 package lotto.controller;
 
 import lotto.controller.message.Request;
+import lotto.controller.message.ResponseFormat;
 import lotto.model.domain.lotto.dto.req.GenerateLottoDTO;
 import lotto.model.domain.lotto.dto.res.LottoDTOs;
 import lotto.model.service.LottoService;
@@ -25,6 +26,8 @@ public class LottoController {
     private LottoDTOs generateLotto() {
         GenerateLottoDTO generateLottoDTO = ioHandler.requestMappableDTOWithMessage(GenerateLottoDTO.class,
                 Request.PURCHASE_MONEY.message());
-        return lottoService.generateLotto(generateLottoDTO);
+        LottoDTOs lottoDTOs = lottoService.generateLotto(generateLottoDTO);
+        ioHandler.printLottoDTOs(ResponseFormat.PURCHASE_COUNT.formatted(lottoDTOs.getLottoCount()), lottoDTOs, 1);
+        return lottoDTOs;
     }
 }

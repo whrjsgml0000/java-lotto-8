@@ -34,7 +34,7 @@ public class IOHandler {
     public <T extends Mappable<T>> T requestMappableDTOWithMessage(Class<T> requiredClassType, String message,
                                                                    int prefixLineSeparatorCount) {
         output.lineSeparate(prefixLineSeparatorCount);
-        return this.requestMappableDTOWithMessage(requiredClassType,message);
+        return this.requestMappableDTOWithMessage(requiredClassType, message);
     }
 
     public void printMessage(String message) {
@@ -49,5 +49,10 @@ public class IOHandler {
     public void printLottoDTOs(String prefixMessage, LottoDTOs lottoDTOs) {
         output.println(prefixMessage);
         output.println(lottoDTOs.toString());
+    }
+
+    public void printLottoDTOs(String prefixMessage, LottoDTOs lottoDTOs, int prefixLineSeparatorCount) {
+        output.lineSeparate(prefixLineSeparatorCount);
+        printLottoDTOs(prefixMessage, lottoDTOs);
     }
 }
