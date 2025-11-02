@@ -189,7 +189,7 @@ class LottoServiceImplTest {
             lottoDTOs.add(new LottoDTO(List.of(1,2,3,4,5,6)));
             MatchResultDTO match = lottoService.match(lottoDTOs, new WinningNumber(List.of(1, 2, 3, 4, 5, 6), 7));
             assertThat(match.toString())
-                    .contains("총 수익률은 20,000,000.0%입니다.");
+                    .contains("총 수익률은 200,000,000.0%입니다.");
         }
     }
 }

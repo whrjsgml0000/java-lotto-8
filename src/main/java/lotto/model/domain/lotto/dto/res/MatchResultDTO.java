@@ -10,7 +10,7 @@ public class MatchResultDTO {
 
     private static final String STATISTIC_FORMAT = "%d개 일치%s (%,d원) - %d개";
     private static final String BONUS_BALL_MATCH = ", 보너스 볼 일치";
-    private static final String PROFIT_RATE_FORMAT = "총 수익률은 %.1f%%입니다.";
+    private static final String PROFIT_RATE_FORMAT = "총 수익률은 %,.1f%%입니다.";
     private final Map<Winning, Integer> winningsCount;
     private final BigDecimal profitRate;
 
