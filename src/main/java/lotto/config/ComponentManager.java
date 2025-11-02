@@ -2,6 +2,7 @@ package lotto.config;
 
 import lotto.controller.LottoController;
 import lotto.model.domain.lotto.factory.LottoFactory;
+import lotto.model.service.LottoService;
 import lotto.view.IOHandler;
 import lotto.view.Input;
 import lotto.view.Output;
@@ -13,6 +14,7 @@ public class ComponentManager {
     private final IOHandler ioHandler;
     private final Input input;
     private final Output output;
+    private final LottoService lottoService;
     private final LottoController lottoController;
 
     private ComponentManager() {
@@ -20,7 +22,8 @@ public class ComponentManager {
         this.output = new Output();
         this.ioHandler = new IOHandler(input, output);
         this.lottoFactory = LottoFactory.defaultSetting();
-        this.lottoController = new LottoController(ioHandler);
+        this.lottoService = LottoService.defaultService();
+        this.lottoController = new LottoController(ioHandler, lottoService);
     }
 
     public static ComponentManager getInstance() {
