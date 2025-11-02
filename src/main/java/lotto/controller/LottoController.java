@@ -37,7 +37,7 @@ public class LottoController {
                 LottoDTOs lottoDTOs = lottoService.generateLotto(generateLottoDTO);
                 ioHandler.printLottoDTOs(ResponseFormat.PURCHASE_COUNT.formatted(lottoDTOs.getLottoCount()), lottoDTOs);
                 return lottoDTOs;
-            } catch (Exception e) {
+            } catch (IllegalArgumentException | IllegalStateException e) {
                 ioHandler.printError(e);
             }
         }
@@ -51,7 +51,7 @@ public class LottoController {
 
                 lottoService.checkValidWinningNumber(generateWinningNumberDTO);
                 return generateWinningNumberDTO;
-            } catch (Exception e) {
+            } catch (IllegalArgumentException | IllegalStateException e) {
                 ioHandler.printError(e);
             }
         }
@@ -63,7 +63,7 @@ public class LottoController {
                 AddBonusNumberDTO addBonusNumberDTO = ioHandler.requestMappableDTOWithMessage(AddBonusNumberDTO.class,
                         Request.BONUS_NUMBER.message());
                 return lottoService.addBonusNumber(generateWinningNumberDTO, addBonusNumberDTO);
-            } catch (Exception e) {
+            } catch (IllegalArgumentException | IllegalStateException e) {
                 ioHandler.printError(e);
             }
         }
