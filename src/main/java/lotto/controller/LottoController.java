@@ -2,9 +2,11 @@ package lotto.controller;
 
 import lotto.controller.message.Request;
 import lotto.controller.message.ResponseFormat;
+import lotto.model.domain.lotto.dto.req.AddBonusNumberDTO;
 import lotto.model.domain.lotto.dto.req.GenerateLottoDTO;
 import lotto.model.domain.lotto.dto.req.GenerateWinningNumberDTO;
 import lotto.model.domain.lotto.dto.res.LottoDTOs;
+import lotto.model.domain.lotto.entity.WinningNumber;
 import lotto.model.service.LottoService;
 import lotto.view.IOHandler;
 
@@ -21,7 +23,19 @@ public class LottoController {
     public void run() {
         LottoDTOs lottoDTOs = generateLotto();
         GenerateWinningNumberDTO generateWinningNumberDTO = getGenerateWinningNumber();
-        ioHandler.requestInputWithMessage(Request.BONUS_NUMBER.message(), 1);
+        WinningNumber winningNumber = addBonusNumber(generateWinningNumberDTO);
+    }
+
+    private WinningNumber addBonusNumber(GenerateWinningNumberDTO generateWinningNumberDTO) {
+        while (true) {
+            try {
+                AddBonusNumberDTO addBonusNumberDTO = ioHandler.requestMappableDTOWithMessage(AddBonusNumberDTO.class,
+                        Request.BONUS_NUMBER.message());
+                return lottoService.addBonusNumber(generateWinningNumberDTO, addBonusNumberDTO);
+            } catch (Exception e) {
+                ioHandler.printError(e);
+            }
+        }
     }
 
     private LottoDTOs generateLotto() {

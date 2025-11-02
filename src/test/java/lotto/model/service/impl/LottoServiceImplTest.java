@@ -125,4 +125,11 @@ class LottoServiceImplTest {
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
+
+    @Nested
+    @DisplayName("보너스 번호 추가")
+    class 보너스번호추가 {
+
+
+    }
 }

@@ -1,5 +1,7 @@
 package lotto.model.service.impl;
 
+import java.util.List;
+import lotto.model.domain.lotto.dto.req.AddBonusNumberDTO;
 import lotto.model.domain.lotto.dto.req.GenerateLottoDTO;
 import lotto.model.domain.lotto.dto.req.GenerateWinningNumberDTO;
 import lotto.model.domain.lotto.dto.res.LottoDTO;
@@ -32,5 +34,14 @@ public class LottoServiceImpl implements LottoService {
     @Override
     public void checkValidWinningNumber(GenerateWinningNumberDTO generateWinningNumberDTO) {
         WinningNumber.validateRegularNumbers(generateWinningNumberDTO.getNumbers());
+    }
+
+    @Override
+    public WinningNumber addBonusNumber(GenerateWinningNumberDTO generateWinningNumberDTO,
+                                        AddBonusNumberDTO addBonusNumberDTO) {
+        List<Integer> regularNumbers = generateWinningNumberDTO.getNumbers();
+        int bonusNumber = addBonusNumberDTO.getBonusNumber();
+        WinningNumber.validate(regularNumbers, bonusNumber);
+        return new WinningNumber(regularNumbers, bonusNumber);
     }
 }

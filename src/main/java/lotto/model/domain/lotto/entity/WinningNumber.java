@@ -25,7 +25,7 @@ public class WinningNumber {
         this.bonusNumber = bonusNumber;
     }
 
-    private void validate(List<Integer> regularNumbers, int bonusNumber) {
+    public static void validate(List<Integer> regularNumbers, int bonusNumber) {
         validateRegularNumbers(regularNumbers);
         validateBonusNumber(bonusNumber);
         validateBonusNumberUnique(regularNumbers, bonusNumber);
