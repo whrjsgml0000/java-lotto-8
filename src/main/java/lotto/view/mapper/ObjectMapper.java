@@ -21,7 +21,7 @@ public class ObjectMapper {
         } catch (IllegalAccessException e) {
             throw new IllegalStateException(MAPPABLE_CLASS_SHOULD_HAVE_PUBLIC_DEFAULT_CONSTRUCTOR.message());
         } catch (Throwable e) {
-            throw new IllegalStateException(MAPPING_PROCESS_ERROR.message());
+            throw new IllegalStateException(e.getMessage());
         }
     }
 }

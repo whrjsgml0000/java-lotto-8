@@ -33,7 +33,10 @@ public class LottoController {
     }
 
     private GenerateWinningNumberDTO getGenerateWinningNumber() {
-        return ioHandler.requestMappableDTOWithMessage(
+        GenerateWinningNumberDTO generateWinningNumberDTO = ioHandler.requestMappableDTOWithMessage(
                 GenerateWinningNumberDTO.class, Request.WINNING_NUMBER.message(), 1);
+
+        lottoService.checkValidWinningNumber(generateWinningNumberDTO);
+        return generateWinningNumberDTO;
     }
 }
