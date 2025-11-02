@@ -1,5 +1,9 @@
 package lotto.view.mapper;
 
+import static lotto.exception.Error.MAPPABLE_CLASS_SHOULD_HAVE_DEFAULT_CONSTRUCTOR;
+import static lotto.exception.Error.MAPPABLE_CLASS_SHOULD_HAVE_PUBLIC_DEFAULT_CONSTRUCTOR;
+import static lotto.exception.Error.MAPPING_PROCESS_ERROR;
+
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -13,11 +17,11 @@ public class ObjectMapper {
             T mapped = (T) constructor.invoke();
             return mapped.mapping(input);
         } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("Mappable 클래스는 기본 생성자가 필요합니다.");
+            throw new IllegalStateException(MAPPABLE_CLASS_SHOULD_HAVE_DEFAULT_CONSTRUCTOR.message());
         } catch (IllegalAccessException e) {
-            throw new IllegalStateException("Mappable 클래스는 기본 생성자가 public 해야 합니다.");
+            throw new IllegalStateException(MAPPABLE_CLASS_SHOULD_HAVE_PUBLIC_DEFAULT_CONSTRUCTOR.message());
         } catch (Throwable e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(MAPPING_PROCESS_ERROR.message());
         }
     }
 }

@@ -20,7 +20,10 @@ public enum Error {
     CANT_DIVIDE_MONEY_CLEARLY("구입 금액이 " + DEFAULT_LOTTO_PRICE.value() + "으로 나눠져야 합니다."),
     PURCHASE_MONEY_CANT_BE_NEGATIVE("구입 금액은 음수일 수 없습니다."),
     PURCHASE_MONEY_SHOULD_BE_LARGER_THAN_LOTTO_PRICE("구입 금액은 로또를 최소 한 개 이상 구입할 수 있는 금액이어야 합니다."),
-    INPUT_PURCHASE_MONEY_SHOULD_BE_NUMBER("구입 금액은 숫자를 입력하셔야 합니다.")
+    INPUT_PURCHASE_MONEY_SHOULD_BE_NUMBER("구입 금액은 숫자를 입력하셔야 합니다."),
+    MAPPABLE_CLASS_SHOULD_HAVE_DEFAULT_CONSTRUCTOR("Mappable 클래스는 기본 생성자가 필요합니다."),
+    MAPPABLE_CLASS_SHOULD_HAVE_PUBLIC_DEFAULT_CONSTRUCTOR("Mappable 클래스는 기본 생성자가 public 해야 합니다."),
+    MAPPING_PROCESS_ERROR("Mapping 과정에서 문제가 발생했습니다."),
     ;
     private static final String ERROR_PREFIX = "[ERROR] ";
     private final String message;
